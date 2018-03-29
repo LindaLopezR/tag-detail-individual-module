@@ -1,0 +1,216 @@
+<template name="tagDetail">
+	<div class="container">
+
+		<div class="ui active dimmer" id="loadingTag">
+			<div class="ui loader">
+				<br>
+				<p>&nbsp;</p>
+				<p>&nbsp;</p>
+				<p>
+				{{_ "loading"}}
+				</p>
+			</div>
+		</div>
+
+		<div class="row mrg-1">
+			<div class="col-md-1"></div>
+			<div class="col-md-10">
+				<p class="titulo">{{_ "card_detail"}}</p>
+
+				<div class="cardInfo cardInfo-{{getCardClass type}}">
+					<div class="row">
+						<div class="col-xs-12 p-asignado">
+							<p class="{{getCardClass type}}-detail">{{_ "status"}}: </p>
+							{{#if isOpen}}
+								<p class="asignado {{getCardClass type}}-detail">{{_ "open_tag"}}</p>
+							{{else}}
+								<p class="asignado {{getCardClass type}}-detail">{{_ "close_tag"}}</p>
+							{{/if}}
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-6">
+							<p>
+								{{_ "creation_date"}}:
+								<span class="{{getCardClass type}}-detail espacio"><strong>{{formatDate originDate}}</strong></span>
+							</p>
+						</div>
+						<div class="col-md-6">
+							<p>
+								{{_ "due_date"}}:
+								<span class="{{getCardClass type}}-detail espacio"><strong>{{formatDate dueDate}}</strong></span>
+								{{#if showEditDue}}
+									<a href="#" id="showEditDue" class="{{getCardClass type}}-detail mrg-2">{{_ "edit"}}</a>
+									<input type="text" class="timepickers" id="editDueDate" readonly style="width: 0px; border-width:0px; border:none;">
+								{{/if}}
+							</p>
+						</div>
+					</div>
+					<hr class="linea-{{getCardClass type}}">
+
+					<div class="row">
+						<div class="col-md-6">
+							<p>
+								<h6 class="{{getCardClass type}}-detail descriptionDetail">{{_ "category"}}:</h6>
+								{{getCategory category}}
+							</p>
+
+							<p>
+								<h6 class="{{getCardClass type}}-detail descriptionDetail">{{_"location"}}:</h6>
+								{{getLocation location}}
+							</p>
+
+							<h6 class="{{getCardClass type}}-detail descriptionDetail">{{_ "actions"}}:</h6>
+							<ul class="accionList-{{getCardClass type}}">
+								{{#each getActions}}
+									<li><p>{{this}}</p></li>
+								{{/each}}
+							</ul>
+						</div>
+
+						<!-- DESCRIPTION -->
+						<div class="col-md-6">
+							<h6 class=" {{getCardClass type}}-detail descriptionDetail">{{_ "description"}}:</h6>
+							<p class="titulo mrg-3">{{_ "picture"}}:</p>
+
+							<div class="row maxImg">
+								{{#each getImages}}
+									<div class="col-xs-6 col-md-3">
+										<div class="imgCard ui tiny rounded image border-{{getCardClass ../type}} text-center ">
+											<a href="{{this}}" target="_blank"><img src="{{this}}"/></a>
+										</div>
+									</div>
+								{{/each}}
+
+								{{#if isOpen}}
+									<div class="col-xs-6 col-md-3" id="addPhoto">
+										<div class="imgCard border-{{getCardClass type}} text-center">
+											<a href="">
+												<i class="detail-icon-{{getCardClass type}} plus icon"></i>
+											</a>
+										</div>
+									</div>
+									<input id="uploadPhoto" type="file" accept="image/*" style="display:none;">
+								{{/if}}
+							</div>
+							<br>
+							<div class="row">
+								<div class="col-md-5">
+									<p class=" titulo">{{_ "audio"}}:</p>
+								</div>
+								<div class="col-md-7">
+									{{#if isOpen}}
+										<a href="#" id="addAudio"><p class="edit a"><i class="plus icon"></i>{{_ "add_audio"}}</p></a>
+										<input id="uploadAudio" type="file" accept="audio/*" style="display:none;">
+									{{/if}}
+								</div>
+							</div>
+							<ul class="audioCard">
+								{{#each getAudios}}
+									<a href="{{url}}" class="a" target="_blank">
+										<li><i class="unmute icon"></i>{{name}}</li>
+									</a>
+								{{/each}}
+							</ul>
+							<br>
+							<div class="row">
+								<div class="col-md-5">
+									<p class="titulo">{{_ "description"}}</p>
+								</div>
+								<div class="col-md-7">
+									{{#if isOpen}}
+										<a href="#" id="addDescription"><p class="edit a"><i class="plus icon"></i>{{_ "add_description"}}</p></a>
+									{{/if}}
+								</div>
+							</div>
+							<br>
+							<ul class="accionList-{{getCardClass type}}">
+								{{#each getTextDescriptions}}
+									<li><p>{{this}}</p></li>
+								{{/each}}
+							</ul>
+
+							{{#if showNewMessage}}
+								<textarea id="newDescription" class="form-control descriptText border-{{getCardClass type}}" placeholder= '{{_ "write_the_messager"}}' rows="2"></textarea>
+								<br>
+
+								<button id="publishTextDescription" class="ui right button btnCard-{{getCardClass type}}">
+									{{_ "publish"}}
+								</button>
+
+								<button id="cancelTextDescription" class="ui right button btnCard-{{getCardClass type}}">
+									{{_ "cancel"}}
+								</button>
+							{{/if}}
+						</div>
+					</div>
+
+					<button class="ui button btnDelete deleteCard" type="button"><i class="trash icon"></i> {{_ "delete_card"}}</button>
+				</div>
+
+				<p class="titulo mrg-3">{{_ "history"}}</p>
+
+				{{#if showUpdates updates}}
+					{{#each updates}}
+
+						{{#if fromApp}}
+							{{>historyUpdate}}
+						{{else}}
+							{{>historyComment}}
+						{{/if}}
+
+					{{/each}}
+				{{else}}
+					{{>noDataCards}}
+				{{/if}}
+
+				<div class="row"> <!-- Comentarios -->
+					<div class="col-md-2"></div>
+					<div class="col-md-8">
+						{{#if isOpen}}
+							<p class="titulo">
+								{{_ "comments"}} <i class="large comments outline icon"></i>
+							</p>
+
+							<div class="ui tiny form">
+								<div class="ui action fluid input">
+									<textarea id="newMessage" rows="2"></textarea>
+									<button class="ui teal right button" id="sendMessage">
+										{{_ "publish"}}
+									</button>
+								</div>
+							</div>
+							<br>
+
+							{{#if ableToClose}}
+								<button id="btnCloseCard" class="ui right fluid button btnCard-red">
+									{{_ "close_card"}}
+								</button>
+							{{/if}}
+
+						{{else}}
+							<div class="cardHistory">
+								<h2>{{_ "close_on"}} {{formatDate closedDate}} </h2>
+							</div>
+						{{/if}}
+					</div>
+					<div class="col-md-2"></div>
+				</div>
+
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+	</div>
+
+</template>
+
+
+<template name="noDataCards">
+	<div class="cardHistory">
+		<div class="row text-center">
+			<h1 class="noCard"><i class="warning circle icon"></i></h1>
+			<h1 class="noCard">{{_ "no_updates"}}</h1>
+		</div>
+	</div>
+</template>

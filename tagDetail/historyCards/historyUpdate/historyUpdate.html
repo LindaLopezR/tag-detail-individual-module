@@ -1,0 +1,41 @@
+<template name="historyUpdate">
+
+  <div class="cardHistory">
+    <div class="row">
+      <div class="col-md-4">
+        <p>
+          <i class="calendar icon"></i>
+          {{_ "date_card"}}: {{formatDate date}}
+        </p>
+      </div>
+
+      <div class="col-md-4">
+        <p class="titulo">{{_ "action_performed"}}:</p>
+        <p>{{action}}</p>
+      </div>
+
+      <div class="col-md-4">
+        <p class="titulo">{{_ "evidences"}}: </p>
+        <div class="row">
+
+          {{#if hasEvidences pictures}}
+
+            {{#each pictures}}
+              <div class="col-xs-6 col-md-4">
+                <div class="imgHistory ui small rounded image">
+                  <img style="background-color: #fff" src="{{this}}" alt="">
+                </div>
+              </div>
+            {{/each}}
+
+          {{else}}
+            <h3>{{_ "no_evidence"}}</h3>
+          {{/if}}
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</template>
