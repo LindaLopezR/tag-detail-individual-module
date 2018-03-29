@@ -19,13 +19,14 @@
 
 				<div class="cardInfo cardInfo-{{getCardClass type}}">
 					<div class="row">
-						<div class="col-xs-12 p-asignado">
-							<p class="{{getCardClass type}}-detail">{{_ "status"}}: </p>
-							{{#if isOpen}}
-								<p class="asignado {{getCardClass type}}-detail">{{_ "open_tag"}}</p>
-							{{else}}
-								<p class="asignado {{getCardClass type}}-detail">{{_ "close_tag"}}</p>
-							{{/if}}
+						<div class="col-xs-12">
+							<p class="{{getCardClass type}}-detail">{{_ "status"}}:
+								{{#if isOpen}}
+									<span class="asignado {{getCardClass type}}-detail">{{_ "open_tag"}}</span>
+								{{else}}
+									<span class="asignado {{getCardClass type}}-detail">{{_ "close_tag"}}</span>
+								{{/if}}
+							</p>
 						</div>
 					</div>
 
