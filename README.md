@@ -1,6 +1,6 @@
-Último commit de dev 12 Marzo 2018
--- e340bdcf35680aec507310eb288f91c20e8a5a1d --
+Último commit de dev 22 Marzo 2018
+-- 80f335903612e6d8ddde2a13883d1a9ec5e2fc5a --
 
-Del 13 al 21 de marzo no se hicieron cambios en dev
+Última actualización: Eliminación de botón eliminar
 
 Versión individual: no posee secciones de usuario
